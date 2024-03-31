@@ -26,6 +26,17 @@
     /*
       misc styles, nothing to do with CSS variables
     */
+    :root {
+      /* 它定义了一堆变量, 然后通过setProperty属性来动态修改这些变量 */
+      --base: #ffc600;
+      --spacing: 10px;
+      --blur: 10px;
+    }
+    img {
+      padding: var(--spacing);
+      background: var(--base);
+      filter: blur(var(--blur));
+    }
 
     body {
       text-align: center;
@@ -43,9 +54,32 @@
     input {
       width: 100px;
     }
+    .hl{
+      color: var(--base);
+    }
   </style>
 
   <script>
+
+    let inputs = document.querySelectorAll('.controls input');
+
+    function handleUpdate (){
+      // 指上文中定义的属性: data-sizing="px"
+      const suffix = this.dataset.sizing || '';
+      // documentElement指根目录
+      // element.style.setProperty(propertyName, value, priority);
+      document.documentElement.style.setProperty(`--${this.name}`,this.value+suffix)
+    }
+
+    inputs.forEach(input=>{
+      input.addEventListener('change', handleUpdate);
+    })
+
+    inputs.forEach(input=>{
+      input.addEventListener('mousemove',handleUpdate);
+    })
+
+
   </script>
 
 </body>
